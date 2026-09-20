@@ -19,8 +19,8 @@ Not in scope: Firebase, authentication, AI matching, chat, notifications, QR cod
 
 | Member | Primary ownership |
 | --- | --- |
-| Myo Kyi Sim Thar | Item CRUD, Claim CRUD, dashboard, search/filter, README |
-| Myat Zay Hein | MongoDB setup, Category CRUD, Location CRUD, VM deployment |
+| Myo Kyi Sim Thar | MongoDB setup, Category CRUD, Location CRUD, VM deployment |
+| Myat Zay Hein | Item CRUD, Claim CRUD, dashboard, search/filter, README |
 | Both | Architecture, shared UI conventions, integration tests, bug fixes, screenshots, demo video |
 
 Each person owns their feature end-to-end: database access, REST endpoints, UI, manual testing, and focused commits.
@@ -140,7 +140,7 @@ Use `201` for create, `200` for successful reads/updates/deletes, `400` for inva
 ## Git workflow
 
 1. `main` is the working integration branch. Do not commit directly to it.
-2. Start from an up-to-date `main`; create branches such as `myo/item-crud` and `myat/category-crud`.
+2. Start from an up-to-date `main`; create branches such as `myo/category-crud` and `myat/item-crud`.
 3. Make one logical change per descriptive commit, push it, and create a pull request.
 4. The other teammate reviews and tests the pull request before merging it.
 5. Never commit `.env.local`, `node_modules`, `.next`, or deployment secrets.
