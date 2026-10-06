@@ -1,0 +1,255 @@
+/* Match the existing Category page without changing the teammate's styles. */
+.panel {
+  composes: panel from "../categories/category-manager.module.css";
+  min-width: 0;
+}
+.hint {
+  composes: hint from "../categories/category-manager.module.css";
+}
+.success {
+  composes: success from "../categories/category-manager.module.css";
+}
+.error {
+  composes: error from "../categories/category-manager.module.css";
+}
+.empty {
+  composes: empty from "../categories/category-manager.module.css";
+}
+.badge {
+  composes: badge from "../categories/category-manager.module.css";
+  display: inline-block;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 350px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.stack {
+  display: grid;
+  gap: 22px;
+}
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  align-items: center;
+}
+.header h1 {
+  overflow-wrap: anywhere;
+}
+.navLinks a[aria-current="page"] {
+  color: #155b50;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.form {
+  margin-top: 22px;
+}
+.fields {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.fields label,
+.filters label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.fields input,
+.fields textarea,
+.fields select,
+.filters input,
+.filters select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #c8d2da;
+  border-radius: 7px;
+  padding: 11px 12px;
+  color: #182635;
+  background: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+}
+.fields textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.fields :focus-visible,
+.filters :focus-visible,
+.actions :focus-visible {
+  outline: 3px solid #66bbaa;
+  outline-offset: 3px;
+}
+.fields :disabled,
+.filters :disabled,
+.actions :disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+.primary,
+.secondary,
+.danger {
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 7px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+}
+.primary {
+  background: #155b50;
+  border: 1px solid #155b50;
+  color: white;
+}
+.secondary {
+  background: white;
+  border: 1px solid #c8d2da;
+  color: #334557;
+}
+.danger {
+  background: white;
+  border: 1px solid #efc7c0;
+  color: #962f21;
+}
+.primary:hover {
+  background: #10493f;
+}
+.secondary:hover {
+  background: #f3f6f8;
+}
+.filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+.wide {
+  grid-column: 1 / -1;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.card {
+  border-top: 1px solid #e5e9ed;
+  padding: 22px 0;
+  overflow-wrap: anywhere;
+}
+.card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0;
+}
+.card h3 a {
+  color: #155b50;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  color: #566575;
+  font-size: 14px;
+}
+.meta {
+  color: #647181;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+.details dt {
+  color: #647181;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.details dd {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.stat {
+  background: white;
+  border: 1px solid #dce2e7;
+  padding: 24px;
+  border-radius: 12px;
+}
+.stat strong {
+  display: block;
+  color: #155b50;
+  font-size: 36px;
+  letter-spacing: -1px;
+}
+.stat span {
+  font-size: 13px;
+  color: #566575;
+}
+.note {
+  background: #eaf3f0;
+  color: #155b50;
+  padding: 18px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  font-size: 13px;
+}
+@media (max-width: 950px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  .filters,
+  .details {
+    grid-template-columns: 1fr;
+  }
+  .navLinks {
+    gap: 12px;
+  }
+  .stat {
+    padding: 18px;
+  }
+}
