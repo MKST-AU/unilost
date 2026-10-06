@@ -1,0 +1,26 @@
+PASS Dashboard empty state uses real empty database
+PASS Report form uses real Category and Location APIs
+PASS Unmocked Item report list reads actual DB and relationships
+PASS Item search, empty state, combined filters and clear
+PASS Item details and edit form load real relationships
+PASS Submit claim through actual UI and API
+PASS Edit claim updates the displayed claim
+PASS Reject, filter and delete claim with confirmation
+PASS Approve claim and show workflow guidance
+PASS Item deletion is blocked when claims exist
+PASS Invalid and missing item pages show errors
+PASS Dashboard populated values match API and refresh
+PASS Dashboard failure and retry states
+PASS Mobile pages do not overflow horizontally
+PASS Real API: report form rejects blank required values
+PASS Real API: report item through form
+PASS Real API: edit Item UI persists changes
+PASS Real API: approved claim enables CLAIMED then RETURNED
+PASS Delete cancellation preserves Item; confirmed deletion removes it
+PASS Simulated empty locations disables reporting with a clear message
+PASS Category error and empty-choice states disable reporting
+PASS Item list loading, error and retry states
+PASS Claim list error and retry states
+PASS No uncaught browser runtime errors
+
+24 browser checks passed. Successful Item/Claim/Location workflows used real APIs and MongoDB. Only error/loading/empty states were simulated.

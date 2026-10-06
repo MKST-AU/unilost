@@ -1,0 +1,98 @@
+PASS Create LOST item; trim input and protect system/unknown fields
+PASS Create FOUND item with ISO timestamp and maximum text lengths
+PASS List items with Category/Location relationships
+PASS Get one item with relations
+PASS Missing item itemName returns 400
+PASS Missing item description returns 400
+PASS Missing item type returns 400
+PASS Missing item categoryId returns 400
+PASS Missing item locationId returns 400
+PASS Missing item date returns 400
+PASS Invalid item itemName #1
+PASS Invalid item itemName #2
+PASS Invalid item itemName #3
+PASS Invalid item itemName #4
+PASS Invalid item description #1
+PASS Invalid item description #2
+PASS Invalid item description #3
+PASS Invalid item type #1
+PASS Invalid item type #2
+PASS Invalid item type #3
+PASS Invalid item categoryId #1
+PASS Invalid item categoryId #2
+PASS Invalid item categoryId #3
+PASS Invalid item locationId #1
+PASS Invalid item locationId #2
+PASS Invalid item locationId #3
+PASS Invalid item date #1
+PASS Invalid item date #2
+PASS Invalid item date #3
+PASS Invalid item date #4
+PASS Non-object payload null
+PASS Non-object payload []
+PASS Non-object payload 42
+PASS Non-object payload "text"
+PASS Malformed JSON returns 400 for both create APIs
+PASS GET /items invalid ID returns 400
+PASS PUT /items invalid ID returns 400
+PASS DELETE /items invalid ID returns 400
+PASS /items missing ID returns 404
+PASS GET /claims invalid ID returns 400
+PASS PUT /claims invalid ID returns 400
+PASS DELETE /claims invalid ID returns 400
+PASS /claims missing ID returns 404
+PASS Update Item and protect _id/createdAt/unknown fields
+PASS Item invalid update and impossible workflow rejected
+PASS Category deletion guard respects Item reference
+PASS Text search matches name and description case-insensitively
+PASS Search treats regex syntax literally and yields empty results
+PASS Category, location, status and combined filters work
+PASS Incompatible filter combinations produce empty results
+PASS Pagination has stable order and bounded pages
+PASS Reject invalid filter categoryId=bad
+PASS Reject invalid filter locationId=bad
+PASS Reject invalid filter status=oops
+PASS Reject invalid filter type=oops
+PASS Reject invalid filter page=-1
+PASS Reject invalid filter limit=101
+PASS Reject invalid filter limit=0
+PASS Reject invalid filter q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+PASS Create claim defaults to PENDING and ignores protected fields
+PASS Missing claim itemId
+PASS Missing claim claimantName
+PASS Missing claim contactInformation
+PASS Missing claim description
+PASS Invalid claim itemId bad
+PASS Invalid claim itemId 6ac32d3cc4d4
+PASS Invalid claim claimantName
+PASS Invalid claim claimantName aaaaaaaaaaaa
+PASS Invalid claim contactInformation [object Obje
+PASS Invalid claim contactInformation aaaaaaaaaaaa
+PASS Invalid claim description
+PASS Invalid claim description aaaaaaaaaaaa
+PASS List claims includes related Item; filter by Item and status
+PASS Get one claim
+PASS Update claim details and preserve creation timestamp
+PASS Claim itemId and status restrictions
+PASS Item deletion blocked while any claim exists
+PASS Approve claim; Item status changes only on explicit handover workflow
+PASS Second approved claim blocked by unique index
+PASS Reject claim
+PASS Final claim decision cannot be rewritten
+PASS Mark Item CLAIMED with approved claim
+PASS No new claims for claimed item; approved evidence cannot be deleted
+PASS Confirm RETURNED after handover and prevent reopening
+PASS Delete rejected claim and return 404 on subsequent read/delete
+PASS Delete standalone item and return 404 thereafter
+PASS Dashboard counts equal actual database statuses
+PASS Concurrent approvals leave exactly one approved claim
+PASS Public access matches no-auth project design; no fabricated 401/403 behavior
+PASS Real Category and Location APIs supply Item relationships
+PASS Category/Location CRUD integrates with Item reference protection
+PASS Safe database failure: GET /items
+PASS Safe database failure: GET /claims
+PASS Safe database failure: GET /dashboard
+PASS Safe database failure: POST /items
+PASS Recover after database failure
+
+96 API/database checks passed.

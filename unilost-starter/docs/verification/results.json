@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-05T04:53:21.043Z",
+  "results": [
+    {
+      "suite": "tests/integration.mjs",
+      "exitCode": 0,
+      "checksPassed": 96
+    },
+    {
+      "suite": "tests/browser.mjs",
+      "exitCode": 0,
+      "checksPassed": 24
+    }
+  ]
+}
