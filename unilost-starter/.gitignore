@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Disposable test configuration, logs and recordings
+/.test-artifacts/
