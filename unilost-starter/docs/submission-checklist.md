@@ -28,7 +28,7 @@ Prepared 5 October 2026. This checklist maps the assigned ten work areas to the 
 
 The verified source package is prepared for a feature branch and pull request. Publication status must be checked in GitHub; this local checklist does not claim a push or merge.
 
-`PROJECT.md` requires the other teammate to manually test/review the pull request before merging. That human review has not been performed by this automated run. The team's VM deployment and public URL belong to Myo's assignment and are not certified by these local tests. A speaking/demo guide is supplied; no personally presented video has been fabricated.
+`PROJECT.md` requires the other teammate to manually test/review the pull request before merging. The team's VM deployment and public URL belong to Myo's assignment and are not certified by these local tests. A speaking/demo guide is supplied; no personally presented video has been fabricated.
 
 ## Quick reviewer check
 
