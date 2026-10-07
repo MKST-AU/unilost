@@ -1,92 +1,132 @@
 # UniLost — Campus Lost & Found
 
-UniLost lets a campus community report lost and found items, search reports, submit ownership evidence, review claims, and record returned property. It uses Next.js App Router, TypeScript and MongoDB.
+UniLost is a campus lost-and-found system built for our Web Project 2. Students can report lost or found items, search reports, submit ownership claims, and track returned items.
 
-## Team responsibilities
+The project uses Next.js App Router, TypeScript, and MongoDB.
 
-| Member | Primary contribution |
+## Live website
+
+[Open UniLost](http://4.217.184.157/)
+
+The website runs on an Azure Ubuntu 24.04 virtual machine in Korea Central. Nginx handles web requests, Next.js runs the application, and MongoDB stores the records on the VM. The website is available while the VM is running.
+
+The deployed workflow was checked on 7 October 2026: creating Categories and Locations, reporting an Item, submitting and approving a Claim, updating the Item to CLAIMED and RETURNED, searching reports, and checking dashboard totals. The records stayed saved after reloading the page. All screenshots use labelled demo records and fictional contact details; the handover was simulated.
+
+The site currently uses HTTP and has no sign-in or user roles. Use test data for demonstrations because claim details and management actions are visible to everyone.
+
+## Team members and responsibilities
+
+| Member | Responsibilities |
 | --- | --- |
-| Myo Kyi Sim Thar | MongoDB connection, Category CRUD, Location CRUD, VM deployment |
-| Myat Zay Hein | Item CRUD, Claim CRUD, dashboard, Item search/filtering, contribution documentation |
-| Both | Shared architecture, integration review, screenshots and demo preparation |
+| Myo Kyi Sim Thar | MongoDB setup, Category CRUD, Location CRUD, Azure VM deployment |
+| Myat Zay Hein | Item CRUD, Claim CRUD, dashboard, search and filters, project documentation |
+| Both | Project design, integration, testing, screenshots, and demo preparation |
 
-See [PROJECT.md](PROJECT.md) for the agreed schema and scope. Implementation and verification of the Item/Claim contribution were prepared with AI assistance; this does not represent independently logged personal working hours.
+See [PROJECT.md](PROJECT.md) for the project scope, database structure, and team workflow.
 
 ## Features
 
-- **Items:** report, list, inspect, edit and delete reports; choose real Categories and Locations; filter by text, type, status, Category and Location; pagination.
-- **Claims:** submit evidence and contact details, list/read/edit/delete claims, approve or reject, filter by status and Item. Only one claim per Item can be approved.
-- **Returns:** after approving evidence, explicitly mark the Item `CLAIMED`, then `RETURNED` after handover.
-- **Dashboard:** live Item and Claim counts, latest reports, links to every management area.
-- **Integration:** Category/Location APIs from the shared branch are included. Referenced Categories/Locations and Items with Claims cannot be deleted.
-- **UI:** responsive pages, validation, loading/error/empty/success messages, retry controls and delete confirmations.
+- **Categories and Locations:** create, view, edit, and delete records. Records used by an Item cannot be deleted.
+- **Items:** report lost or found items, view details, edit reports, and delete Items that have no Claims.
+- **Search and filters:** search Item names and descriptions, or filter by report type, status, Category, and Location. Results support pagination.
+- **Claims:** submit ownership evidence and contact details, edit Claims, and approve or reject them. Only one Claim per Item can be approved.
+- **Returns:** after approving a Claim, open the Item and select Edit item to mark it CLAIMED. Mark it RETURNED after handover.
+- **Dashboard:** view current Item and Claim counts and the latest reports.
+- **Interface:** responsive pages, form validation, loading and error messages, retry buttons, and delete confirmations.
 
-## Run with your MongoDB database
+## Run locally
 
-Requirements: Node.js 22.13+ (verified with 24.16), npm, and a MongoDB server supported by the installed driver. Commands below run from the repository root.
+You need Node.js 22.13 or newer, npm, and a running MongoDB server. Start from the repository root:
 
 ```sh
 cd unilost-starter
 npm ci
-cp .env.example .env.local
 ```
 
-Set `MONGODB_URI` and `MONGODB_DB` in `.env.local`, then:
+Copy `.env.example` to `.env.local`. For MongoDB running on your computer, use:
+
+```dotenv
+MONGODB_URI=mongodb://127.0.0.1:27017
+MONGODB_DB=unilost
+```
+
+Keep `.env.local` private and do not commit it to GitHub.
+
+Start the app:
 
 ```sh
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). Create a Category and Location before reporting an Item. Keep `.env.local` private.
+Open [http://localhost:3000](http://localhost:3000). Create a Category and Location before reporting an Item.
 
-For a production process on the team's VM:
+For a production build:
 
 ```sh
 npm run build
 npm start
 ```
 
-VM provisioning, environment configuration and the final public URL remain the deployment owner's responsibility; no hosted deployment is claimed by this contribution.
+The Azure deployment runs the production build as a system service behind Nginx.
 
-## Quick local demo without database setup
+## Local demo
 
-From `unilost-starter`:
+To try the app without setting up your own database, run these commands inside `unilost-starter`:
 
 ```sh
 npm ci
 npm run demo
 ```
 
-Open [localhost:3217](http://127.0.0.1:3217). This runs the real production app against a disposable local MongoDB with an Electronics Category and Library Location. The database is temporary and is removed when the process stops. The first run may download a MongoDB binary. No team database or `.env.local` credentials are used.
+Open [http://127.0.0.1:3217](http://127.0.0.1:3217). The demo starts a temporary MongoDB database with an Electronics Category and Library Location. Demo records are removed when it stops. The first run may download MongoDB. This mode does not use your `.env.local` database.
 
-## Verify
+## Testing
 
-Google Chrome is required for the browser checks. From `unilost-starter`:
+Google Chrome is required for the browser tests. Run these commands inside `unilost-starter`:
 
 ```sh
 npm ci
 npm run verify
 ```
 
-This runs lint, TypeScript, a production build, 96 API/database checks, and 24 browser checks using a disposable local database. Port 3217 must be free; stop the demo first. Successful flows use the real Category, Location, Item, Claim and dashboard APIs. Only failure/loading/empty responses are simulated to test feedback states.
+This checks lint, TypeScript, the production build, 96 API/database checks, and 24 browser checks. Tests use a temporary database. Stop the local demo first so port 3217 is free.
 
-Verified on 5 October 2026: all checks passed. [Verification details and logs](unilost-starter/docs/verification/README.md).
+Normal workflows use the application APIs and MongoDB. Loading, empty, and error responses are also simulated to check how the interface handles them.
 
-## Submission and demonstration
+The full local checks passed on 5 October 2026. See the [test results and logs](unilost-starter/docs/verification/README.md). The deployed workflow check on 7 October is a separate check of the public website.
 
-- [10-part contribution checklist](unilost-starter/docs/submission-checklist.md)
-- [Testing guide and API/workflow details](unilost-starter/docs/myat-testing.md)
-- [3–4 minute demo script and likely questions](unilost-starter/docs/demo-script.md)
-- [Current screenshots](unilost-starter/docs/screenshots/README.md)
+## Screenshots
 
-The screenshots below are genuine captures of the local production build with labelled test data and real APIs.
+[View all 14 deployment screenshots with step-by-step captions](unilost-starter/docs/deployment/README.md).
 
-![Dashboard with live database counts](unilost-starter/docs/screenshots/07-dashboard-test-data.png)
+### Dashboard
 
-![Approved ownership claim](unilost-starter/docs/screenshots/06-approved-claim-test-data.png)
+The dashboard shows one returned Item and one approved Claim after the demo workflow.
 
-![Returned Item after approved claim and handover](unilost-starter/docs/screenshots/10-returned-item-real-api.png)
+![Dashboard on the Azure deployment](unilost-starter/docs/deployment/14-dashboard-completed.jpg)
 
-## Scope and limitations
+### Approved Claim
 
-Authentication and user roles are explicitly outside the team's approved scope. Management actions and claim contact details are visible to all app users. Item/Claim cross-collection checks follow the existing non-transactional architecture; the unique approval index prevents duplicate approvals, but all cross-collection races are not eliminated. See the testing guide for the precise boundary.
+Approval confirms the ownership evidence. The Item status is updated separately through Edit item.
+
+![Approved demo Claim](unilost-starter/docs/deployment/09-approved-claim.jpg)
+
+### Returned Item
+
+The Item is marked RETURNED after the simulated handover.
+
+![Returned demo Item](unilost-starter/docs/deployment/12-item-returned.jpg)
+
+Earlier local screenshots are available in the [local screenshot guide](unilost-starter/docs/screenshots/README.md).
+
+## Project guides
+
+- [Contribution checklist](unilost-starter/docs/submission-checklist.md)
+- [Testing guide](unilost-starter/docs/myat-testing.md)
+- [Demo script](unilost-starter/docs/demo-script.md)
+
+## Limitations
+
+Authentication and user roles are outside the project scope. Anyone using the app can view claim contact details and use management actions.
+
+The database prevents multiple approved Claims for one Item. Related-record checks across different collections do not use transactions, so simultaneous requests can still cause some edge cases. See the testing guide for details.
