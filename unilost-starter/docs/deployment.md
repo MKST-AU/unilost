@@ -2,19 +2,18 @@
 
 Public demo: [http://4.217.184.157/](http://4.217.184.157/). The website is available while the VM is running.
 
-## What the repository records
+## Confirmed deployment setup
 
-The deployment summary in main at `f11d690` describes this setup:
+| Component | Confirmed information |
+| --- | --- |
+| Azure VM | `unilost-vm` in resource group `unilost-rg`, Korea Central; Ubuntu 24.04; size `Standard_B2as_v2`; SSH user `azureuser` |
+| Application directory | `/home/azureuser/unilost/unilost-starter` |
+| Node.js | Version 22.23.3 on the VM. The local verification used Node.js 24.16; the VM does not need an upgrade for the current application. |
+| Next.js | Production build managed by `unilost.service`, listening on `127.0.0.1:3000` |
+| MongoDB | Stores application records on the VM and runs as service `mongod` |
+| Nginx | Serves public HTTP on port 80 and proxies requests to Next.js at `127.0.0.1:3000` |
 
-| Component | Recorded information | Details still missing |
-| --- | --- | --- |
-| VM | Azure, Ubuntu 24.04, Korea Central | VM name, resource group, size, administrator account and public-IP allocation type |
-| MongoDB | Stores the application records on the VM | Installed version, actual service/unit name, bind/auth configuration, storage and backup arrangements |
-| Next.js | Production build managed as a system service | Unit name, service account, working directory, startup command, internal port and environment-loading method |
-| Nginx | Handles public HTTP requests in front of Next.js | Active site file, server block, proxy target and forwarded headers |
-| Application | Next.js App Router with MongoDB; public HTTP URL above | Currently deployed commit and service versions |
-
-The repository contains no systemd unit, Nginx site configuration or Azure provisioning script. The safe local example in [`.env.example`](../.env.example) is not proof of the VM's actual environment settings. Confirm the missing values with the deployment owner before running maintenance commands; do not replace the existing configuration with guessed values.
+The repository contains no copy of the systemd unit, Nginx site configuration or Azure provisioning script. MongoDB version, bind/auth configuration, storage/backup arrangements, the systemd environment-loading method, the active Nginx site filename, public-IP allocation type and currently deployed commit are still not recorded. The safe local example in [`.env.example`](../.env.example) is not proof of the VM's actual environment settings. Confirm these remaining details with the deployment owner before changing configuration.
 
 The [Azure screenshot gallery](screenshots/README.md#azure-deployment--7-october-2026) records a successful workflow on 7 October 2026. That is saved evidence, not a fresh health check. No VM connection, service inspection, deployment or power action was performed during this documentation cleanup.
 
@@ -31,30 +30,29 @@ sudo nginx -t
 sudo nginx -T
 ```
 
-Identify the actual Next.js and MongoDB unit names. Then inspect their definitions and status locally:
+Inspect the confirmed service definitions and status locally:
 
 ```sh
-# Replace these placeholders with the confirmed unit names first.
-APP_SERVICE='replace-with-nextjs-unit.service'
-MONGO_SERVICE='replace-with-mongodb-unit.service'
+APP_SERVICE='unilost.service'
+MONGO_SERVICE='mongod'
 systemctl status "$APP_SERVICE" "$MONGO_SERVICE" nginx --no-pager
 systemctl cat "$APP_SERVICE"
 systemctl cat "$MONGO_SERVICE"
 ```
 
-Check the app's `WorkingDirectory`, executable/Node path, `ExecStart`, user, environment source and restart/boot settings. Compare the actual listening port with Nginx's upstream target. Check MongoDB's configured data directory and connectivity from the app. Service/configuration output may contain private values: inspect it locally and do not paste unredacted output into documentation.
+Confirm that the app's `WorkingDirectory` is `/home/azureuser/unilost/unilost-starter`, its Node version is 22.23.3, and its listening address is `127.0.0.1:3000`. Inspect `ExecStart`, the environment source and restart/boot settings. Confirm that Nginx listens on port 80 and proxies to `127.0.0.1:3000`. Check MongoDB's configured data directory and connectivity from the app. Service/configuration output may contain private values: inspect it locally and do not paste unredacted output into documentation.
 
 ## Build and startup
 
-The application remains in `unilost-starter`. The following package commands are confirmed by [package.json](../package.json). After entering the confirmed repository directory on the VM:
+The following package commands are confirmed by [package.json](../package.json). On the VM:
 
 ```sh
-cd unilost-starter
+cd /home/azureuser/unilost/unilost-starter
 npm ci
 npm run build
 ```
 
-The existing service should launch the production app through its confirmed startup command. `npm start` runs `next start`; the actual VM service may pass additional port/host settings. Do not start a second process on a port already used by the service. Ensure the service receives `MONGODB_URI` and `MONGODB_DB` through the existing private environment setup; do not overwrite it with the local example.
+`unilost.service` runs the production application on `127.0.0.1:3000`; Nginx publishes it on HTTP port 80. `npm start` runs `next start`, but use the systemd service for the deployed process and do not start a second process on port 3000. Ensure the service receives `MONGODB_URI` and `MONGODB_DB` through the existing private environment setup; do not overwrite it with the local example.
 
 Do not use `npm run demo` or the disposable test launcher as the deployed service: their databases are temporary. Keep MongoDB's persistent data outside the source/build replacement process.
 
@@ -67,11 +65,12 @@ curl --fail --show-error --max-time 15 http://4.217.184.157/ -o /dev/null
 curl --fail --show-error --max-time 15 http://4.217.184.157/api/dashboard
 ```
 
-A successful dashboard response should contain `data`. The homepage alone does not confirm database connectivity. There is no dedicated health endpoint in the repository. On the VM, compare a request through Nginx with one to the confirmed internal app port:
+A successful dashboard response should contain `data`. The homepage alone does not confirm database connectivity. There is no dedicated health endpoint in the repository. On the VM, compare a request through Nginx with one to Next.js on its confirmed internal address:
 
 ```sh
-# Set APP_PORT to the numeric port found in the service and Nginx configuration.
-curl --fail --show-error --max-time 15 "http://127.0.0.1:${APP_PORT}/api/dashboard"
+APP_SERVICE='unilost.service'
+MONGO_SERVICE='mongod'
+curl --fail --show-error --max-time 15 http://127.0.0.1:3000/api/dashboard
 systemctl status "$APP_SERVICE" "$MONGO_SERVICE" nginx --no-pager
 journalctl -u "$APP_SERVICE" -n 100 --no-pager
 journalctl -u "$MONGO_SERVICE" -n 100 --no-pager
@@ -93,7 +92,7 @@ Check Nginx's configured log locations rather than assuming default paths. Do no
 
 Use this procedure only after the team's normal review and deployment approval. The current documentation cleanup does not authorize or perform an update.
 
-1. Confirm the approved release/commit and the VM's repository/app paths. Record the current commit, inspect `git status`, and resolve local differences before pulling. Confirm a restorable MongoDB backup exists; its location and procedure are not documented here.
+1. Confirm the approved release/commit. In `/home/azureuser/unilost`, record the current commit, inspect `git status`, and resolve local differences before pulling. Confirm a restorable MongoDB backup exists; its location and procedure are not documented here.
 2. In the confirmed repository root, fetch and inspect the intended update. If the VM tracks `main`, has no conflicting local changes, and the update is approved, use a fast-forward update:
 
    ```sh
@@ -102,16 +101,16 @@ Use this procedure only after the team's normal review and deployment approval. 
    git pull --ff-only origin main
    ```
 
-3. In `unilost-starter`, run `npm ci` and `npm run build` using the existing private environment configuration. In-place builds can interrupt a running app, so agree a maintenance window or follow the deployment owner's release-directory procedure. That procedure is not recorded in the repository.
-4. If the build succeeds, restart the confirmed app unit with `sudo systemctl restart "$APP_SERVICE"`. Check its status/logs and both internal and public health responses. Nginx needs a tested reload only if its configuration was intentionally changed.
+3. In `/home/azureuser/unilost/unilost-starter`, run `npm ci` and `npm run build` using the existing private environment configuration. In-place builds can interrupt a running app, so agree a maintenance window or follow the deployment owner's release-directory procedure. That procedure is not recorded in the repository.
+4. If the build succeeds, run `sudo systemctl restart unilost.service`. Check its status/logs and both internal and public health responses. Nginx needs a tested reload only if its configuration was intentionally changed.
 5. Manually check the key workflow using [testing.md](testing.md). Record the deployed commit and date. If checks fail, restore the previous approved application release and rebuild/restart using the team's rollback process; do not roll back database data blindly.
 
 ## Starting and deallocating the VM
 
-The VM name and resource group must be confirmed with Myo; they are not in the repository. In the Azure portal:
+The VM is `unilost-vm` in resource group `unilost-rg`. In the Azure portal:
 
-1. Find the existing UniLost VM in the correct subscription/resource group.
-2. To bring the site online, select **Start**, wait for **Running**, and confirm its current public IP. Verify MongoDB, Next.js and Nginx are running, then perform the public health checks above. Automatic service startup has not been confirmed from repository evidence.
+1. Open resource group `unilost-rg` and select VM `unilost-vm` in Korea Central. Confirm the size is `Standard_B2as_v2` before making changes.
+2. To bring the site online, select **Start**, wait for **Running**, and confirm its current public IP. Connect as `azureuser` using the team's existing SSH access. Verify `mongod`, `unilost.service` and Nginx are running, then perform the public health checks above. Automatic service startup has not been confirmed from repository evidence.
 3. When the demo is finished and no one is using the site, use the VM's **Stop** action and verify the resulting state is **Stopped (deallocated)**. An operating-system shutdown alone should not be treated as confirmation of deallocation.
 4. The website is offline while the VM is deallocated. Check whether its public IP is static before assuming the URL will remain the same after a later start. Deallocation does not remove persistent disks; storage and other retained resources may still incur charges.
 

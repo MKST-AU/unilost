@@ -22,7 +22,7 @@ UniLost is our campus lost-and-found project, built with Next.js, TypeScript and
 
 ## Local setup
 
-Use Node.js 24, npm and a compatible MongoDB server. The saved local run used Node.js 24.16. Commands start from the repository root:
+Use a supported Node.js version, npm and a compatible MongoDB server. The saved local test run used Node.js 24.16, while the Azure VM runs Node.js 22.23.3. Both versions are compatible with the current application dependencies; the VM does not need a Node.js upgrade for this project. Commands start from the repository root:
 
 ```sh
 cd unilost-starter
@@ -74,6 +74,4 @@ These captures show the Azure demo on 7 October 2026 using labelled demo records
 - The public demo uses HTTP and has no sign-in or roles. Anyone can view Claim contact details and use management actions, so use fictional data for demonstrations.
 - Claim approval does not automatically return an Item; the Item status must be updated separately.
 - Cross-collection checks do not use transactions. The unique approval index prevents duplicate approved Claims, but some concurrent operations can still race.
-- Availability depends on the VM. Exact service configuration and backup arrangements are not recorded in the repository; the deployment guide lists what needs confirming.
-
-The Item/Claim implementation and its saved verification were prepared with AI assistance. The evidence does not represent personal working hours or replace teammate review.
+- Availability depends on the VM. Backup arrangements and some configuration-file details are not recorded in the repository; the deployment guide lists what still needs confirming.

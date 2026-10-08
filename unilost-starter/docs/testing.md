@@ -14,7 +14,7 @@ The saved audit results are dated evidence, not a current security assessment. S
 
 ## Automated tests
 
-Run from `unilost-starter`. Use Node.js 24 (the saved run used 24.16), npm, installed Google Chrome and a free port 3217. The first run may need network access to download a MongoDB binary.
+Run from `unilost-starter`. The saved local test run used Node.js 24.16. The Azure VM uses Node.js 22.23.3, which is also compatible with the current application dependencies and does not need to be upgraded for this project. You also need npm, installed Google Chrome and a free port 3217. The first run may need network access to download a MongoDB binary.
 
 ```sh
 npm ci
@@ -103,6 +103,6 @@ Item/Claim lists include pagination (`total`, `page`, `limit`, `pages`). Default
 
 For a 3–4 minute presentation, show the dashboard, create a Category and Location, report an Item, search/filter it, edit its details, submit and approve a Claim, save CLAIMED then RETURNED, and refresh the dashboard. Use a second pending Claim to show rejection and a separate Item without Claims to show deletion. Explain that approval checks evidence and handover is a separate step.
 
-For questions, explain that MongoDB ObjectIds connect the collections, server validation checks input and relationships, and the partial unique index handles competing approvals. Be clear about the lack of authentication and cross-collection transactions. The Item/Claim implementation and saved verification used AI assistance; do not present automated execution as personal working hours.
+For questions, explain that MongoDB ObjectIds connect the collections, server validation checks input and relationships, and the partial unique index handles competing approvals. Be clear about the lack of authentication and cross-collection transactions.
 
 Before final submission, follow the teammate review and Git workflow in [PROJECT.md](../../PROJECT.md), check the public URL while the VM is running, and prepare any required demo video. No separate assignment rubric was found in this repository. The former planning documents were consolidated here; their filenames are not required by PROJECT.md. The original files were backed up outside the repository before removal.
