@@ -24,4 +24,3 @@ Successful Location-dependent workflows used the real `/api/locations` implement
 
 The original framework version, 16.3.5, was updated to 16.3.8 after the dependency audit reported a critical advisory; matching ESLint configuration was updated too. The full development dependency audit still reports five high-severity entries along the ESLint `fast-glob` → `micromatch` → `braces` chain. No framework downgrade or forced breaking dependency update was applied. These entries are absent from the production-only audit.
 
-This evidence does not constitute deployment proof or replace the separate human teammate review required by `PROJECT.md`.
