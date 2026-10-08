@@ -8,8 +8,8 @@ UniLost is our campus lost-and-found project, built with Next.js, TypeScript and
 
 | Member | Responsibilities |
 | --- | --- |
-| Myo Kyi Sim Thar | MongoDB setup, Category and Location CRUD, Azure VM deployment |
-| Myat Zay Hein | Item and Claim CRUD, dashboard, search and filters, documentation |
+| [Myo Kyi Sim Thar](https://github.com/MKST-AU) | MongoDB setup, Category and Location CRUD, Azure VM deployment |
+| [Myat Zay Hein](https://github.com/MyatZay) | Item and Claim CRUD, dashboard, search and filters, documentation |
 
 ## Main features
 
