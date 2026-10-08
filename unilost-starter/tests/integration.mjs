@@ -1,4 +1,4 @@
-// Run only against the disposable local server described in docs/myat-testing.md.
+// Run only against the disposable local server described in docs/testing.md.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { MongoClient, ObjectId } from "mongodb";

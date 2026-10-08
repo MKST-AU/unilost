@@ -1,4 +1,4 @@
-// Playwright is an optional test-only dependency. See docs/myat-testing.md.
+// Playwright is an optional test-only dependency. See docs/testing.md.
 import assert from "node:assert/strict";
 import { readFile, mkdir } from "node:fs/promises";
 import { MongoClient, ObjectId } from "mongodb";
